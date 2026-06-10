@@ -1,18 +1,18 @@
 [
     {
         "name" : "Bhekumuzi",
-        "number" : 23456789,
-        "email" : "Bhekumuzi@sample.com"
+        "phoneNumber": "082 111 2222",
+        "email" : "lindokuhle@sample.com"
 
     },
     {
-         "name" : "Lindokuhle",
-        "number" : 34569871,
+        "name" : "Lindokuhle",
+        "phoneNumber": "073 333 4444",
         "email" : "Bhekumuzi@sample.com"
     },
     {
-         "name" : "Tshabalala",
-        "number" : 46569741,
-        "email" : "Bhekumuzi@sample.com"
+        "name" : "Tshabalala",
+        "phoneNumber": "061 555 6666",
+        "email" : "tshabalala@sample.com"
     }
 ]
