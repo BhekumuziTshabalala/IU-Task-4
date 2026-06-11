@@ -1,0 +1,104 @@
+const API = 'http://localhost:3000/contacts';
+
+let contactsData = [];
+
+function validateForm(name, email, phoneNumber) {
+    if (!name.trim() || !email.trim() || !phoneNumber.trim()) {
+        alert('All fields are required.');
+        return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address.');
+        return false;
+    }
+
+    const phoneRegex = /^[\d\s\-+]{7,15}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+        alert('Please enter a valid phone number.');
+        return false;
+    }
+
+    return true;
+}
+
+async function loadContacts() {
+    try {
+        const response = await fetch(API);
+        contactsData = await response.json();
+        displayContacts();
+    } catch (error) {
+        console.error('Error loading contacts:', error);
+    }
+}
+
+async function removeContact(id, name) {
+    try {
+        await fetch(`${API}/${id}`, { method: 'DELETE' });
+        contactsData = contactsData.filter(contact => contact.id !== id);
+        displayContacts();
+        alert(`${name} has been removed successfully.`);
+    } catch (error) {
+        console.error('Error removing contact:', error);
+        alert('Failed to remove contact.');
+    }
+}
+
+async function addContact(name, email, phoneNumber) {
+    if (validateForm(name, email, phoneNumber)) {
+        try {
+            const response = await fetch(API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, phoneNumber })
+            });
+            const newContact = await response.json();
+            contactsData.push(newContact);
+            displayContacts();
+            return true;
+        } catch (error) {
+            console.error('Error adding contact:', error);
+            alert('Failed to add contact.');
+            return false;
+        }
+    }
+    return false;
+}
+
+function displayContacts() {
+    const tableBody = document.getElementById('contactTableBody');
+    tableBody.innerHTML = '';
+
+    contactsData.forEach((contact, index) => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+            <th scope="row">${index + 1}</th>
+            <td>${contact.name}</td>
+            <td>${contact.phoneNumber}</td>
+            <td>${contact.email}</td>
+            <td>
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+            </td>
+        `;
+
+        row.querySelector('button').addEventListener('click', () => removeContact(contact.id, contact.name));
+        tableBody.appendChild(row);
+    });
+}
+
+document.getElementById('contactForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const name = document.getElementById('nameInput').value;
+    const email = document.getElementById('emailInput').value;
+    const phoneNumber = document.getElementById('phoneInput').value;
+    
+    const isSuccess = await addContact(name, email, phoneNumber);
+    if (isSuccess) {
+        this.reset();
+        this.classList.remove('was-validated'); 
+    }
+});
+
+document.addEventListener('DOMContentLoaded', loadContacts);
