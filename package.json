@@ -1,5 +1,8 @@
 {
   "scripts": {
-    "start": "json-server --watch contacts.json --port 3000"
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
   }
 }

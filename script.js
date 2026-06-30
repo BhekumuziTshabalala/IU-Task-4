@@ -1,4 +1,4 @@
-const API = 'http://localhost:3000/contacts';
+const API = '/contacts';
 
 let contactsData = [];
 
@@ -98,6 +98,23 @@ document.getElementById('contactForm').addEventListener('submit', async function
     if (isSuccess) {
         this.reset();
         this.classList.remove('was-validated'); 
+    }
+});
+
+document.getElementById('removeContactForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const name = document.getElementById('removeNameInput').value.trim();
+    if (!name) {
+        alert('Please enter a name to remove.');
+        return;
+    }
+    
+    const contact = contactsData.find(c => c.name.trim().toLowerCase() === name.toLowerCase());
+    if (contact) {
+        await removeContact(contact.id, contact.name);
+        this.reset();
+    } else {
+        alert(`Contact with name "${name}" not found.`);
     }
 });
 
