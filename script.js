@@ -79,45 +79,84 @@ function displayContacts() {
             <td><i class="bi bi-telephone text-muted me-2"></i>${contact.phoneNumber}</td>
             <td><i class="bi bi-envelope text-muted me-2"></i>${contact.email}</td>
             <td>
-                <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1">
-                    <i class="bi bi-trash3-fill"></i> Delete
-                </button>
+                <div class="d-flex flex-column gap-1">
+                    <button class="btn btn-sm btn-outline-primary edit-btn d-inline-flex align-items-center gap-1">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger delete-btn d-inline-flex align-items-center gap-1">
+                        <i class="bi bi-trash3-fill"></i> Delete
+                    </button>
+                </div>
             </td>
         `;
 
-        row.querySelector('button').addEventListener('click', () => removeContact(contact.id, contact.name));
+        row.querySelector('.delete-btn').addEventListener('click', () => removeContact(contact.id, contact.name));
+        row.querySelector('.edit-btn').addEventListener('click', () => openEditModal(contact));
         tableBody.appendChild(row);
     });
 }
 
-document.getElementById('contactForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const name = document.getElementById('nameInput').value;
-    const email = document.getElementById('emailInput').value;
-    const phoneNumber = document.getElementById('phoneInput').value;
-    
-    const isSuccess = await addContact(name, email, phoneNumber);
-    if (isSuccess) {
-        this.reset();
-        this.classList.remove('was-validated'); 
-    }
-});
+let editModal;
 
-document.getElementById('removeContactForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const name = document.getElementById('removeNameInput').value.trim();
-    if (!name) {
-        alert('Please enter a name to remove.');
-        return;
-    }
-    
-    const contact = contactsData.find(c => c.name.trim().toLowerCase() === name.toLowerCase());
-    if (contact) {
-        await removeContact(contact.id, contact.name);
-        this.reset();
-    } else {
-        alert(`Contact with name "${name}" not found.`);
-    }
-});
+function openEditModal(contact) {
+    document.getElementById('editContactId').value = contact.id;
+    document.getElementById('editNameInput').value = contact.name;
+    document.getElementById('editPhoneInput').value = contact.phoneNumber;
+    document.getElementById('editEmailInput').value = contact.email;
+    editModal.show();
+}
 
-document.addEventListener('DOMContentLoaded', loadContacts);
+document.addEventListener('DOMContentLoaded', () => {
+    loadContacts();
+    
+    // Initialize the Bootstrap modal
+    editModal = new bootstrap.Modal(document.getElementById('editContactModal'));
+
+    // Add Contact form submission
+    document.getElementById('contactForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const name = document.getElementById('nameInput').value;
+        const email = document.getElementById('emailInput').value;
+        const phoneNumber = document.getElementById('phoneInput').value;
+        
+        const isSuccess = await addContact(name, email, phoneNumber);
+        if (isSuccess) {
+            this.reset();
+            this.classList.remove('was-validated'); 
+        }
+    });
+
+
+
+    // Edit Contact form submission
+    document.getElementById('editContactForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const id = document.getElementById('editContactId').value;
+        const name = document.getElementById('editNameInput').value;
+        const phoneNumber = document.getElementById('editPhoneInput').value;
+        const email = document.getElementById('editEmailInput').value;
+
+        if (validateForm(name, email, phoneNumber)) {
+            try {
+                const response = await fetch(`${API}/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, phoneNumber })
+                });
+
+                if (response.ok) {
+                    const updatedContact = await response.json();
+                    contactsData = contactsData.map(c => c.id === id ? updatedContact : c);
+                    displayContacts();
+                    editModal.hide();
+                    alert(`${name} has been updated successfully.`);
+                } else {
+                    alert('Failed to update contact.');
+                }
+            } catch (error) {
+                console.error('Error updating contact:', error);
+                alert('Failed to update contact.');
+            }
+        }
+    });
+});

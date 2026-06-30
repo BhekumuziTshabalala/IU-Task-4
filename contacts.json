@@ -2,19 +2,19 @@
     {
         "id": "1",
         "name": "Bhekumuzi",
-        "phoneNumber": "082 111 2222",
+        "phoneNumber": "0821112222",
         "email": "lindokuhle@sample.com"
     },
     {
         "id": "2",
         "name": "Lindokuhle",
-        "phoneNumber": "073 333 4444",
+        "phoneNumber": "0733334444",
         "email": "Bhekumuzi@sample.com"
     },
     {
         "id": "3",
-        "name": "Bheka",
-        "phoneNumber": "073 333 4444",
-        "email": "Bheka@sample.com"
+        "name": "Muzi",
+        "phoneNumber": "0646211907",
+        "email": "Muzi@sample.com"
     }
 ]

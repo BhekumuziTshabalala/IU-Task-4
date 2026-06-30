@@ -91,6 +91,37 @@ app.delete('/contacts/:id', async (req, res) => {
     }
 });
 
+// PUT /contacts/:id - Update an existing contact
+app.put('/contacts/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, email, phoneNumber } = req.body;
+
+        if (!name || !email || !phoneNumber) {
+            return res.status(400).json({ error: 'Name, email, and phoneNumber are required' });
+        }
+
+        let contacts = await readContacts();
+        const contactIndex = contacts.findIndex(contact => contact.id === id);
+
+        if (contactIndex === -1) {
+            return res.status(404).json({ error: 'Contact not found' });
+        }
+
+        contacts[contactIndex] = {
+            id,
+            name,
+            phoneNumber,
+            email
+        };
+
+        await writeContacts(contacts);
+        res.json(contacts[contactIndex]);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update contact' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
