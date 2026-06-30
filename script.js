@@ -74,12 +74,14 @@ function displayContacts() {
         const row = document.createElement('tr');
 
         row.innerHTML = `
-            <th scope="row">${index + 1}</th>
-            <td>${contact.name}</td>
-            <td>${contact.phoneNumber}</td>
-            <td>${contact.email}</td>
+            <th scope="row" class="fw-semibold">${index + 1}</th>
+            <td class="fw-medium text-dark">${contact.name}</td>
+            <td><i class="bi bi-telephone text-muted me-2"></i>${contact.phoneNumber}</td>
+            <td><i class="bi bi-envelope text-muted me-2"></i>${contact.email}</td>
             <td>
-                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1">
+                    <i class="bi bi-trash3-fill"></i> Delete
+                </button>
             </td>
         `;
 
