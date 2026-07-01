@@ -63,7 +63,7 @@
             </div>
 
             <!-- Sidebar: Add and Remove Actions -->
-            <div class="col-lg-6 mx-auto">
+            <div class="col-lg-6">
                 <div class="card mb-4">
                     <div class="card-header bg-transparent fw-bold fs-5 d-flex align-items-center">
                         <i class="bi bi-person-plus me-2 text-primary"></i>
@@ -87,7 +87,7 @@
                                     <span class="input-group-text bg-light border-end-0 text-muted"><i
                                             class="bi bi-telephone"></i></span>
                                     <input type="text" class="form-control border-start-0" id="phoneInput"
-                                        placeholder="082 111 2222" required>
+                                        placeholder="0821112222" pattern="\d{10}" title="Phone number must be exactly 10 digits" maxlength="10" required>
                                 </div>
                             </div>
 
@@ -104,6 +104,33 @@
                             <button type="submit"
                                 class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
                                 <i class="bi bi-plus-lg me-2"></i> Add Contact
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Remove Contact Card -->
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-transparent fw-bold fs-5 d-flex align-items-center">
+                        <i class="bi bi-person-dash me-2 text-danger"></i>
+                        <span>Remove Contact</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="removeContactForm">
+                            <div class="mb-3">
+                                <label for="removeNameInput" class="form-label">Full Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0 text-muted"><i
+                                            class="bi bi-person"></i></span>
+                                    <input type="text" class="form-control border-start-0" id="removeNameInput"
+                                        placeholder="Name of contact to remove" required>
+                                </div>
+                            </div>
+                            <button type="submit"
+                                class="btn btn-danger w-100 d-flex align-items-center justify-content-center mt-4">
+                                <i class="bi bi-trash3-fill me-2"></i> Remove Contact
                             </button>
                         </form>
                     </div>
@@ -137,7 +164,7 @@
                             <label for="editPhoneInput" class="form-label">Phone Number</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-telephone"></i></span>
-                                <input type="text" class="form-control border-start-0" id="editPhoneInput" required>
+                                <input type="text" class="form-control border-start-0" id="editPhoneInput" placeholder="0821112222" pattern="\d{10}" title="Phone number must be exactly 10 digits" maxlength="10" required>
                             </div>
                         </div>
                         <div class="mb-3">

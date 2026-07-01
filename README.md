@@ -1,63 +1,47 @@
-# Contact List Manager Web Application
+# Contacts Directory
 
-## Overview
-This project is a basic web application designed to manage a contact list utilising JSON data. The application provides a user-friendly interface to view existing contacts, add new entries, and remove specific contacts from the list dynamically.
+A simple, modern web application for managing a contact list. This project uses a lightweight Node.js/Express backend to store contact data persistently in a local JSON file. The frontend is built using standard HTML, JavaScript, and Bootstrap 5 for responsive styling.
 
 ## Features
-1. **View Contacts:** Displays a list of contacts in an HTML table format.
-2. **Add Contacts:** Allows users to input a name, email address, and phone number to add to the list.
-3. **Remove Contacts:** Enables users to delete a contact by clicking the delete button in the table, or by specifying their exact name in the removal form.
-4. **Data Validation:** Ensures all form fields are completed correctly and the email address follows a valid format before submission.
-5. **Node.js Backend:** Uses an Express server to handle JSON data read/write/delete operations on the server side instead of frontend-only mockups or `json-server`.
 
----
+- **View Contacts:** Displays all saved contacts in a responsive table.
+- **Add Contacts:** Allows users to add a new contact with basic validation (e.g., enforcing exactly 10 digits for the phone number).
+- **Remove Contacts:** Users can type a contact's name to instantly remove them from the directory.
+- **Data Persistence:** All contacts are stored and updated in real-time within `contacts.json`.
 
-## 1. JSON Data Structure
-The application's state is managed using an array of JSON objects stored in `contacts.json`. Each object represents a single contact with attributes for `id`, `name`, `email`, and `phoneNumber`.
+## Technology Stack
 
-```json
-[
-    {
-        "id": "1",
-        "name" : "Bhekumuzi",
-        "phoneNumber": "082 111 2222",
-        "email" : "lindokuhle@sample.com"
-    },
-    {
-        "id": "2",
-        "name" : "Lindokuhle",
-        "phoneNumber": "073 333 4444",
-        "email" : "Bhekumuzi@sample.com"
-    }
-]
-```
+- **Frontend:** HTML5, Vanilla JavaScript, Bootstrap 5 (CSS & Icons).
+- **Backend:** Node.js, Express.js.
+- **Data Storage:** Local JSON file (`contacts.json`).
 
----
+## Prerequisites
 
-## 2. API Endpoints
-The Node.js server (`server.js`) exposes the following endpoints:
+Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
 
-* **`GET /contacts`**: Reads and returns all contacts from `contacts.json`.
-* **`POST /contacts`**: Creates a new contact with a unique generated `id`, appends it to `contacts.json`, and returns the created contact.
-* **`DELETE /contacts/:id`**: Deletes the contact with the matching `id` from `contacts.json`.
+## Getting Started
 
----
+1. **Clone or Download the Repository:**
+   Navigate into the project directory (e.g., `cd Task5`).
 
-## 3. Running the Project
-
-### Prerequisites
-- [Node.js](https://nodejs.org/) (includes npm) installed on your system.
-
-### Steps to Run
-1. Install dependencies:
+2. **Install Dependencies:**
+   Run the following command to install the required Express package:
    ```bash
    npm install
    ```
-2. Start the Express server:
+
+3. **Start the Application:**
+   Start the Node.js server with:
    ```bash
    npm start
    ```
-3. Open your browser and navigate to:
-   ```
-   http://localhost:3000
-   ```
+   *(Alternatively, you can run `node server.js`)*
+
+4. **Access the App:**
+   Open your preferred web browser and go to:
+   [http://localhost:3000](http://localhost:3000)
+
+## Troubleshooting
+
+- **Error: `EADDRINUSE: address already in use :::3000`**
+  This means you already have a server running on port 3000 (perhaps in another terminal window or background process). You need to stop that server first, or change the port in `server.js`.

@@ -14,9 +14,9 @@ function validateForm(name, email, phoneNumber) {
         return false;
     }
 
-    const phoneRegex = /^[\d\s\-+]{7,15}$/;
+    const phoneRegex = /^\d{10}$/;
     if (!phoneRegex.test(phoneNumber)) {
-        alert('Please enter a valid phone number.');
+        alert('Please enter exactly 10 digits for the phone number.');
         return false;
     }
 
@@ -83,14 +83,10 @@ function displayContacts() {
                     <button class="btn btn-sm btn-outline-primary edit-btn d-inline-flex align-items-center gap-1">
                         <i class="bi bi-pencil-square"></i> Edit
                     </button>
-                    <button class="btn btn-sm btn-outline-danger delete-btn d-inline-flex align-items-center gap-1">
-                        <i class="bi bi-trash3-fill"></i> Delete
-                    </button>
                 </div>
             </td>
         `;
 
-        row.querySelector('.delete-btn').addEventListener('click', () => removeContact(contact.id, contact.name));
         row.querySelector('.edit-btn').addEventListener('click', () => openEditModal(contact));
         tableBody.appendChild(row);
     });
@@ -126,8 +122,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
-
+    // Remove Contact form submission
+    document.getElementById('removeContactForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const name = document.getElementById('removeNameInput').value.trim();
+        
+        const contactToDelete = contactsData.find(c => c.name.toLowerCase() === name.toLowerCase());
+        
+        if (contactToDelete) {
+            await removeContact(contactToDelete.id, contactToDelete.name);
+            this.reset();
+        } else {
+            alert('Contact not found with the name: ' + name);
+        }
+    });
     // Edit Contact form submission
     document.getElementById('editContactForm').addEventListener('submit', async function(event) {
         event.preventDefault();
