@@ -45,3 +45,10 @@ Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
 
 - **Error: `EADDRINUSE: address already in use :::3000`**
   This means you already have a server running on port 3000 (perhaps in another terminal window or background process). You need to stop that server first, or change the port in `server.js`.
+  
+  **How to change the port:**
+  1. Open `server.js` in your code editor.
+  2. Locate the line: `const PORT = process.env.PORT || 3000;` (usually around line 6).
+  3. Change `3000` to your desired port number (e.g., `const PORT = process.env.PORT || 3001;`).
+  4. Save the file and restart the application with `npm start`.
+  5. Access the app at your new port, e.g., `http://localhost:3001`.
